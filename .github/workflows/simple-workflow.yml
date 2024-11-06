@@ -1,1 +1,21 @@
+name: Simple Environment Workflow
+
+on:
+  push:
+    branches:
+      - main       # for production
+      - staging    # for testing
+      - develop    # for development
+
+jobs:
+  print-message:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'main' && 'production' || github.ref_name == 'staging' && 'testing' || 'development' }}
+    steps:
+      - name: Display Environment Message
+        env:
+          ENV_MESSAGE: ${{ secrets[format('ENV_MESSAGE_{0}', environment)] }}
+        run: |
+          echo "Running in the ${environment} environment"
+          echo "${ENV_MESSAGE}"
 
