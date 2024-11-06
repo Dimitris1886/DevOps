@@ -10,12 +10,12 @@ on:
 jobs:
   print-message:
     runs-on: ubuntu-latest
-    environment: ${{ github.ref_name == 'main' && 'production' || github.ref_name == 'staging' && 'testing' || 'development' }}
     steps:
       - name: Display Environment Message
         env:
-          ENV_MESSAGE: ${{ secrets[format('ENV_MESSAGE_{0}', testing)] }}
+          # Use conditional logic to pick the correct secret based on the branch
+          ENV_MESSAGE: ${{ github.ref_name == 'main' && secrets.ENV_MESSAGE_PRODUCTION || github.ref_name == 'staging' && secrets.ENV_MESSAGE_TESTING || secrets.ENV_MESSAGE_DEVELOPMENT }}
         run: |
-          echo "Running in the ${environment} testing"
+          echo "Running in the environment based on branch ${GITHUB_REF_NAME}"
           echo "${ENV_MESSAGE}"
 
