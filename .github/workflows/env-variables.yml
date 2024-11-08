@@ -1,0 +1,16 @@
+name: Envoronment Variables Workflow
+on:
+  workflow_dispatch:
+jobs:
+  show_env_vars:
+    runs-on: ubuntu-latest
+    env:
+      GREETING: "Hello"
+      NAME: "DevOps Beginner"
+    steps:
+      - name: Display Environment Variables
+        run: |
+          echo "Greeting: $GREETING"
+          echo "Name: $NAME"
+          echo "Repository: ${{ github.repository }}"
+          echo "Workflow:${{ github.workflow }}"
